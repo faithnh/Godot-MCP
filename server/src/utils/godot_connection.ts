@@ -230,9 +230,13 @@ let connectionInstance: GodotConnection | null = null;
 /**
  * Gets the singleton instance of GodotConnection
  */
-export function getGodotConnection(): GodotConnection {
-  if (!connectionInstance) {
-    connectionInstance = new GodotConnection();
+export function getGodotConnection(url?: string): GodotConnection {
+  // If a URL is provided, recreate the singleton with that URL (disconnect previous)
+  if (!connectionInstance || url) {
+    if (connectionInstance && url) {
+      connectionInstance.disconnect();
+    }
+    connectionInstance = new GodotConnection(url || 'ws://localhost:9080');
   }
   return connectionInstance;
 }

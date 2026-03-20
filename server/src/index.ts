@@ -57,9 +57,12 @@ async function main() {
   server.addResource(scriptResource);
   server.addResource(scriptMetadataResource);
 
-  // Try to connect to Godot
+  // Determine Godot WebSocket URL from environment (fallback to default)
+  const godotUrl = process.env.GODOT_WS_URL || undefined;
+
+  // Try to connect to Godot (pass URL if provided)
   try {
-    const godot = getGodotConnection();
+    const godot = getGodotConnection(godotUrl);
     await godot.connect();
     console.error('Successfully connected to Godot WebSocket server');
   } catch (error) {

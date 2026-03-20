@@ -56,9 +56,37 @@ cd ..
 	 }
    }
    ```
+ 
+You can also add `GODOT_WS_URL` to this configuration to specify the Godot WebSocket URL (for example, `ws://localhost:6007`).
    > **Note**: Replace `PATH_TO_YOUR_PROJECT` with the absolute path to where you have this repository stored.
 
 3. Restart Claude Desktop
+ 
+### Running the MCP server
+
+If you prefer to run the MCP server manually (instead of letting Claude Desktop start it), you can start the built server directly:
+
+```bash
+cd server
+npm run build
+node dist/index.js
+```
+
+You can also run the server using the npm script:
+
+```bash
+cd server
+npm start
+```
+
+Environment variables:
+
+- `GODOT_WS_URL`: (optional) WebSocket URL for the Godot editor/runtime (for example, `ws://localhost:6007`). If provided, the server will attempt to connect to Godot at startup.
+- The server uses STDIO for MCP transport by default; keep `MCP_TRANSPORT: "stdio"` in your Claude Desktop config for the example setup above.
+
+Behavior notes:
+
+- If the server cannot connect to Godot at startup, it will still start and will retry connecting when commands that require Godot are executed.
 
 ### 4. Open the Example Project in Godot
 
